@@ -13,8 +13,8 @@ interface ProductItemProps {
 
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="relative flex h-[170px] w-[156px] items-center justify-center rounded-lg bg-accent">
+    <div className="flex max-w-[156px] flex-col gap-4">
+      <div className="relative flex h-[170px] w-[156px]  items-center justify-center rounded-lg bg-accent">
         <Image
           src={product.imageUrls[0]}
           alt={product.name}
@@ -39,12 +39,12 @@ const ProductItem = ({ product }: ProductItemProps) => {
         <h2 className="overflow-hidden text-ellipsis text-nowrap text-xs">
           {product.name}
         </h2>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 text-sm">
           <h3 className="font-bold">
             {formatCurrency(calculeteProductTotalPrice(product))}
           </h3>
           {product.discountPercentage > 0 && (
-            <span className="text-xs text-[#676767] line-through">
+            <span className="text-xs text-[#676767] line-through ">
               {formatCurrency(Number(product.basePrice))}
             </span>
           )}
