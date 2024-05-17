@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Header from '../_components/header/header'
 import Category from './_components/category/categories'
+import ProdcutList from './_components/product/product-list'
 
 const Home = () => {
   return (
@@ -22,6 +23,11 @@ const Home = () => {
       </div>
       <div>
         <Category />
+      </div>
+
+      <div className="px-5">
+        <h2 className="pb-6 pt-6 font-bold">Ofertas</h2>
+        <ProdcutList />
       </div>
     </>
   )
