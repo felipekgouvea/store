@@ -8,6 +8,7 @@ import {
   getProductsByKeyboards,
   getProductsByMouses,
 } from '@/api/getProductsByCategories'
+import ProductDealsSkeleton from './_components/product/product-deals-skeleton'
 
 const Home = async () => {
   const deals = await getProductsDeals()
@@ -23,11 +24,13 @@ const Home = async () => {
 
       <Category />
 
-      {deals && (
+      {deals ? (
         <>
           <SectionTitle>OFERTAS</SectionTitle>
           <ProductList products={deals} />
         </>
+      ) : (
+        <ProductDealsSkeleton />
       )}
       <PromoBanner
         src="/banner-mouses.png"

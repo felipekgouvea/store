@@ -2,7 +2,7 @@ import {
   calculeteProductTotalPrice,
   formatCurrency,
 } from '@/app/_helpers/price'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/app/_components/ui/badge'
 import { Product } from '@prisma/client'
 import { ArrowDownIcon } from 'lucide-react'
 import Image from 'next/image'
