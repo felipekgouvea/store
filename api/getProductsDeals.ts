@@ -9,7 +9,7 @@ export const getProductsDeals = async () => {
         },
       },
     })
-    console.log(deals)
+
     return deals
   } catch (error) {
     console.log(error)
