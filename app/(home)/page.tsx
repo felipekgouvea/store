@@ -1,8 +1,8 @@
-import Image from 'next/image'
-import Header from '../_components/header/header'
 import Category from './_components/category/categories'
 import { db } from '../_lib/prisma'
 import ProductList from './_components/product/product-list'
+import PromoBanner from './_components/promo-banner'
+import SectionTitle from './_components/section-title'
 
 const Home = async () => {
   const deals = await db.product.findMany({
@@ -30,67 +30,33 @@ const Home = async () => {
     },
   })
   return (
-    <>
-      <div>
-        <div>
-          <Header />
-        </div>
+    <div className="flex flex-col gap-8 px-5">
+      <PromoBanner
+        src="/banner-01.png"
+        alt="Até 55% de desconto só esse mês."
+      />
 
-        <div className="mb-8 mt-8 px-5">
-          <Image
-            src="/banner-01.png"
-            alt="Até 55% de desconto só esse mês."
-            width={0}
-            height={0}
-            sizes="100vh"
-            quality={100}
-            className="h-auto w-full object-contain"
-          />
-        </div>
-        <div>
-          <Category />
-        </div>
+      <Category />
 
-        <div>
-          <h2 className="px-5 pb-4 pt-6 font-bold">OFERTAS</h2>
-          <ProductList products={deals} />
-        </div>
+      <SectionTitle>OFERTAS</SectionTitle>
+      <ProductList products={deals} />
 
-        <div className="mb-8 mt-8 px-5">
-          <Image
-            src="/banner-mouses.png"
-            alt="Até 55% de desconto em mouses."
-            width={0}
-            height={0}
-            sizes="100vh"
-            quality={100}
-            className="h-auto w-full object-contain"
-          />
-        </div>
+      <PromoBanner
+        src="/banner-mouses.png"
+        alt="Até 55% de desconto em mouses."
+      />
 
-        <div className="">
-          <h2 className="px-5 pb-6 pt-6 font-bold">TECLADOS</h2>
-          <ProductList products={keyboards} />
-        </div>
+      <SectionTitle>TECLADOS</SectionTitle>
+      <ProductList products={keyboards} />
 
-        <div className="mb-8 mt-8 px-5">
-          <Image
-            src="/banner-fones.png"
-            alt="Até 30% de desconto em pizzas."
-            width={0}
-            height={0}
-            sizes="100vh"
-            quality={100}
-            className="h-auto w-full object-contain"
-          />
-        </div>
+      <PromoBanner
+        src="/banner-fones.png"
+        alt="Até 30% de desconto em pizzas."
+      />
 
-        <div className=" pb-14">
-          <h2 className="px-5 pb-6 pt-6 font-bold">MOUSES</h2>
-          <ProductList products={mouses} />
-        </div>
-      </div>
-    </>
+      <SectionTitle>MOUSES</SectionTitle>
+      <ProductList products={mouses} />
+    </div>
   )
 }
 
