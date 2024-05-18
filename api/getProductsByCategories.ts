@@ -29,3 +29,20 @@ export const getProductsByMouses = async () => {
     console.log(error)
   }
 }
+
+export const getProductsBySlug = async (slug: string) => {
+  try {
+    const category = await db.category.findFirst({
+      where: {
+        slug,
+      },
+      include: {
+        products: true,
+      },
+    })
+    if (!category) return null
+    return category
+  } catch (error) {
+    console.log(error)
+  }
+}
