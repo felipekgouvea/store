@@ -6,7 +6,7 @@ const CatalogPage = async () => {
   const categories = await getCategories()
 
   return (
-    <div className="flex flex-col gap-8 px-5">
+    <div className="flex flex-col gap-8 px-5 pt-8">
       <TitlePage title="Catálogo" />
       <div className="grid grid-cols-2 gap-8">
         {categories?.map((category) => (

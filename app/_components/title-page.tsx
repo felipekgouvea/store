@@ -3,7 +3,7 @@ import { CATEGORY_ICON } from '../constants/category-icon'
 
 interface TitlePage {
   title: string
-  slug: string
+  slug?: string
 }
 
 const TitlePage = ({ title, slug }: TitlePage) => {

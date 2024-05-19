@@ -11,7 +11,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
   const categories = await getProductsBySlug(params.slug)
 
   return (
-    <div className="flex flex-col gap-6 px-5">
+    <div className="flex flex-col gap-6 px-5 pt-8">
       {categories && (
         <TitlePage title={categories.name} slug={categories.slug} />
       )}

@@ -16,7 +16,7 @@ const Home = async () => {
   const mouses = await getProductsByMouses()
 
   return (
-    <div className="flex flex-col gap-8 px-5">
+    <div className="flex flex-col gap-8 px-5 pt-8">
       <PromoBanner
         src="/banner-01.png"
         alt="Até 55% de desconto só esse mês."
