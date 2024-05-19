@@ -2,7 +2,7 @@ import { getProductsSlug } from '@/api/getProductSlug'
 import ProductImagens from '../_components/product-images'
 import ProductInfo from '../_components/product-info'
 import ProductList from '@/app/_components/product-list'
-import SectionTitle from '@/app/(home)/_components/section-title'
+import SectionTitle from '@/app/_components/section-title'
 
 interface ProductDetailsPage {
   params: {

@@ -3,7 +3,7 @@ import { getProductsDeals } from '@/api/getProductsDeals'
 import Category from './_components/category/categories'
 import ProductList from '../_components/product-list'
 import PromoBanner from './_components/promo-banner'
-import SectionTitle from './_components/section-title'
+import SectionTitle from '../_components/section-title'
 import {
   getProductsByKeyboards,
   getProductsByMouses,
