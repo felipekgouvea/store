@@ -1,5 +1,6 @@
 import { getProductsSlug } from '@/api/getProductSlug'
 import ProductImagens from '../_components/product-images'
+import ProductInfo from '../_components/product-info'
 
 interface ProductDetailsPage {
   params: {
@@ -14,7 +15,8 @@ const ProductDetailsPage = async ({ params: { slug } }: ProductDetailsPage) => {
 
   return (
     <div>
-      {<ProductImagens imageUrls={product.imageUrls} name={product.name} />}
+      <ProductImagens imageUrls={product.imageUrls} name={product.name} />
+      <ProductInfo product={product} />
     </div>
   )
 }
