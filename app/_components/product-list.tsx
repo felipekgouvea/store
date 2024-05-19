@@ -1,5 +1,5 @@
 import { Product } from '@prisma/client'
-import ProductItem from './product-item'
+import ProductItem from '../(home)/_components/product/product-item'
 
 interface ProductListProps {
   products: Product[]
