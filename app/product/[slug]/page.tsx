@@ -2,7 +2,6 @@ import { getProductsSlug } from '@/api/getProductSlug'
 import ProductImagens from '../_components/product-images'
 import ProductInfo from '../_components/product-info'
 import ProductList from '@/app/_components/product-list'
-import { getProductsDeals } from '@/api/getProductsDeals'
 import SectionTitle from '@/app/(home)/_components/section-title'
 
 interface ProductDetailsPage {
@@ -13,7 +12,6 @@ interface ProductDetailsPage {
 
 const ProductDetailsPage = async ({ params: { slug } }: ProductDetailsPage) => {
   const product = await getProductsSlug(slug)
-  const productsRecommended = await getProductsDeals()
 
   if (!product) return null
 
@@ -25,7 +23,7 @@ const ProductDetailsPage = async ({ params: { slug } }: ProductDetailsPage) => {
         <div className="mb-5">
           <SectionTitle>Produtos Recomendados</SectionTitle>
         </div>
-        {productsRecommended && <ProductList products={productsRecommended} />}
+        <ProductList products={product.category.products} />
       </div>
     </div>
   )

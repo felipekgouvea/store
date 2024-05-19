@@ -6,6 +6,19 @@ export const getProductsSlug = async (slug: string) => {
       where: {
         slug,
       },
+      include: {
+        category: {
+          include: {
+            products: {
+              where: {
+                slug: {
+                  not: slug,
+                },
+              },
+            },
+          },
+        },
+      },
     })
 
     return products
