@@ -1,18 +1,13 @@
 'use client'
 
-import { Badge } from '@/app/_components/ui/badge'
+import DiscountBadge from '@/app/_components/discount-badge'
 import { Button } from '@/app/_components/ui/button'
 import {
   calculeteProductTotalPrice,
   formatCurrency,
 } from '@/app/_helpers/price'
 import { Product } from '@prisma/client'
-import {
-  ArrowDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  TruckIcon,
-} from 'lucide-react'
+import { ChevronLeftIcon, ChevronRightIcon, TruckIcon } from 'lucide-react'
 import { useState } from 'react'
 
 interface ProductInfoProsp {
@@ -42,13 +37,9 @@ const ProductInfo = ({ product }: ProductInfoProsp) => {
               {formatCurrency(calculeteProductTotalPrice(product))}
             </h3>
             {product.discountPercentage > 0 && (
-              <Badge
-                variant="default"
-                className="flex items-center justify-center rounded-full px-2 text-white hover:bg-primary"
-              >
-                <ArrowDownIcon size={14} />
-                <span>{`${product.discountPercentage}%`}</span>
-              </Badge>
+              <DiscountBadge>
+                <span>{product.discountPercentage}</span>
+              </DiscountBadge>
             )}
           </div>
           {product.discountPercentage > 0 && (

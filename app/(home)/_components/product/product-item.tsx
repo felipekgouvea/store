@@ -2,11 +2,10 @@ import {
   calculeteProductTotalPrice,
   formatCurrency,
 } from '@/app/_helpers/price'
-import { Badge } from '@/app/_components/ui/badge'
 import { Product } from '@prisma/client'
-import { ArrowDownIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import DiscountBadge from '@/app/_components/discount-badge'
 
 interface ProductItemProps {
   product: Product
@@ -27,13 +26,9 @@ const ProductItem = ({ product }: ProductItemProps) => {
             style={{ objectFit: 'contain' }}
           />
           {product.discountPercentage > 0 && (
-            <Badge
-              variant="default"
-              className="absolute left-3 top-3 flex items-center justify-center rounded-full px-2 text-white hover:bg-primary"
-            >
-              <ArrowDownIcon size={8} />
-              <span>{`${product.discountPercentage}%`}</span>
-            </Badge>
+            <DiscountBadge className="absolute left-3 top-3">
+              <span>{product.discountPercentage}</span>
+            </DiscountBadge>
           )}
         </div>
 
