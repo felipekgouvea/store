@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Footer from './_components/footer/footer'
 import Header from './_components/header/header'
+import { CartProvider } from './_context/cart'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,9 @@ export default function RootLayout({
           <div>
             <Header />
           </div>
-          <div className="flex-1">{children}</div>
+          <div className="flex-1">
+            <CartProvider>{children}</CartProvider>
+          </div>
           <div className="mt-14">
             <Footer />
           </div>
