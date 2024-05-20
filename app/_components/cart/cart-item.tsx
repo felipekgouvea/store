@@ -34,17 +34,20 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
   return (
     <div className=" flex items-center justify-between">
       <div className="flex items-start gap-3">
-        <div className="relative aspect-square h-24 w-24">
+        <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-accent">
           <Image
             src={cartProduct.imageUrls[0]}
             alt={cartProduct.name}
-            fill
-            className="rounded-lg object-cover shadow-md"
+            height={0}
+            width={0}
+            sizes="100vw"
+            className="h-auto max-h-[70%] w-auto max-w-[80%]"
+            style={{ objectFit: 'contain' }}
           />
         </div>
-        <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-xs font-semibold">{cartProduct.name}</h2>
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-xs">{cartProduct.name}</h2>
             <div className="flex items-center gap-2">
               <h3 className="text-xs font-bold">
                 {formatCurrency(
@@ -53,7 +56,12 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
                 )}
               </h3>
               {cartProduct.discountPercentage > 0 && (
-                <span className="text-xs text-muted-foreground line-through"></span>
+                <span className="text-xs text-muted-foreground line-through">
+                  {formatCurrency(
+                    Number(cartProduct.basePrice) *
+                      Number(cartProduct.quantity),
+                  )}
+                </span>
               )}
             </div>
           </div>
@@ -62,20 +70,22 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
               size="icon"
               variant="ghost"
               onClick={handleDecreaseProductClick}
-              className="h-8 w-8 border border-solid border-muted-foreground"
+              className="h-6 w-6 border border-solid border-muted-foreground"
             >
-              <ChevronLeftIcon size={14} />
+              <ChevronLeftIcon size={12} />
             </Button>
 
-            <span className="w-8">{cartProduct.quantity}</span>
+            <span className="w-6 text-sm font-normal">
+              {cartProduct.quantity}
+            </span>
 
             <Button
               size="icon"
               variant="default"
               onClick={handleIncreaseProductClick}
-              className="h-8 w-8"
+              className="h-6 w-6"
             >
-              <ChevronRightIcon size={14} />
+              <ChevronRightIcon size={12} />
             </Button>
           </div>
         </div>
@@ -86,9 +96,9 @@ const CartItem = ({ cartProduct }: CartItemProps) => {
           size="icon"
           variant="outline"
           onClick={handleRemoveProductToCartClick}
-          className="h-8 w-8 border border-[#cac3c4] hover:bg-primary hover:text-white"
+          className="h-8 w-8 "
         >
-          <Trash2Icon size={16} />
+          <Trash2Icon size={14} />
         </Button>
       </div>
     </div>

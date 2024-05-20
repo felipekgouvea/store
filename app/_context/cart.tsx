@@ -1,33 +1,19 @@
 'use client'
 
-import { Prisma } from '@prisma/client'
+import { Product } from '@prisma/client'
 import { ReactNode, createContext, useState } from 'react'
 
-export interface CartProduct
-  extends Prisma.ProductGetPayload<{
-    include: {
-      category: true
-    }
-  }> {
+export interface CartProduct extends Product {
   quantity: number
+  emptyCart?: boolean
 }
 
 interface ICartContext {
   products: CartProduct[]
-  addProductToCart: ({
-    product,
-    quantity,
-    emptyCart,
-  }: {
-    product: Prisma.ProductGetPayload<{
-      include: {
-        category: true
-      }
-    }>
-    quantity: number
-    emptyCart?: boolean
-  }) => void
-
+  cartTotalPrice: number
+  cartBasePrice: number
+  cartTotalDiscount: number
+  addProductToCart: (product: CartProduct) => void
   decreaseProductQuantity: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
   removeProductToCart: (productId: string) => void
@@ -36,6 +22,9 @@ interface ICartContext {
 
 export const CartContext = createContext<ICartContext>({
   products: [],
+  cartBasePrice: 0,
+  cartTotalDiscount: 0,
+  cartTotalPrice: 0,
   addProductToCart: () => {},
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
@@ -46,20 +35,8 @@ export const CartContext = createContext<ICartContext>({
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([])
 
-  const addProductToCart = ({
-    product,
-    quantity,
-    emptyCart,
-  }: {
-    product: Prisma.ProductGetPayload<{
-      include: {
-        category: true
-      }
-    }>
-    quantity: number
-    emptyCart?: boolean
-  }) => {
-    if (emptyCart) {
+  const addProductToCart = (product: CartProduct) => {
+    if (product.emptyCart) {
       setProducts([])
     }
 
@@ -73,7 +50,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           if (cartProduct.id === product.id) {
             return {
               ...cartProduct,
-              quantity: cartProduct.quantity + quantity,
+              quantity: cartProduct.quantity + product.quantity,
             }
           }
           return cartProduct
@@ -81,7 +58,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       )
     }
 
-    setProducts((prev) => [...prev, { ...product, quantity }])
+    setProducts((prev) => [...prev, product])
   }
 
   const removeProductToCart = (productId: string) => {
@@ -96,16 +73,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const decreaseProductQuantity = (productId: string) => {
     return setProducts((prev) =>
-      prev.map((cartProduct) => {
-        if (cartProduct.id === productId) {
-          if (cartProduct.quantity === 1) return cartProduct
-          return {
-            ...cartProduct,
-            quantity: cartProduct.quantity - 1,
+      prev
+        .map((cartProduct) => {
+          if (cartProduct.id === productId) {
+            return {
+              ...cartProduct,
+              quantity: cartProduct.quantity - 1,
+            }
           }
-        }
-        return cartProduct
-      }),
+          return cartProduct
+        })
+        .filter((cartProduct) => cartProduct.quantity > 0),
     )
   }
 
@@ -127,6 +105,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     <CartContext.Provider
       value={{
         products,
+        cartBasePrice: 0,
+        cartTotalDiscount: 0,
+        cartTotalPrice: 0,
         addProductToCart,
         decreaseProductQuantity,
         increaseProductQuantity,

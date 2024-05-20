@@ -21,12 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="flex h-full flex-col">
-          <div>
-            <Header />
-          </div>
-          <div className="flex-1">
-            <CartProvider>{children}</CartProvider>
-          </div>
+          <CartProvider>
+            <div>
+              <Header />
+            </div>
+            <div className="flex-1">{children}</div>
+          </CartProvider>
           <div className="mt-14">
             <Footer />
           </div>

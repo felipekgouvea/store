@@ -1,39 +1,25 @@
 'use client'
 
-import Cart from '@/app/_components/cart/cart'
 import DiscountBadge from '@/app/_components/discount-badge'
 import { Button } from '@/app/_components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/app/_components/ui/sheet'
-import { CartContext } from '@/app/_context/cart'
+import { CartContext, CartProduct } from '@/app/_context/cart'
 import {
   calculeteProductTotalPrice,
   formatCurrency,
 } from '@/app/_helpers/price'
-import { Prisma } from '@prisma/client'
 import { ChevronLeftIcon, ChevronRightIcon, TruckIcon } from 'lucide-react'
 import { useContext, useState } from 'react'
 
 interface ProductInfoProsp {
-  product: Prisma.ProductGetPayload<{
-    include: {
-      category: true
-    }
-  }>
+  product: CartProduct
 }
 
 const ProductInfo = ({ product }: ProductInfoProsp) => {
   const [quantity, setQuantity] = useState(1)
   const { addProductToCart } = useContext(CartContext)
-  const [isOpenCart, setIsOpenCart] = useState(false)
 
-  const handleAddToCartClick = ({ emptyCart }: { emptyCart?: boolean }) => {
-    setIsOpenCart(true)
-    addProductToCart({ product, quantity, emptyCart })
+  const handleAddToCartClick = () => {
+    addProductToCart({ ...product, quantity })
   }
 
   const handleIncreaseQuantityClick = () =>
@@ -124,17 +110,6 @@ const ProductInfo = ({ product }: ProductInfoProsp) => {
           </div>
         </div>
       </div>
-
-      <Sheet open={isOpenCart} onOpenChange={setIsOpenCart}>
-        <SheetContent className="w-[90%]">
-          <SheetHeader>
-            <SheetTitle className="pb-3 text-left text-lg font-semibold">
-              Sacola
-            </SheetTitle>
-          </SheetHeader>
-          <Cart setIsOpenCart={setIsOpenCart} />
-        </SheetContent>
-      </Sheet>
     </>
   )
 }
