@@ -14,13 +14,15 @@ import { Card, CardContent } from '../ui/card'
 import { Separator } from '../ui/separator'
 import { Button } from '../ui/button'
 import CartItem from './cart-item'
+import { formatCurrency } from '@/app/_helpers/price'
+import { ScrollArea } from '../ui/scroll-area'
 
 interface CartProps {
   setIsOpenCart: (isOpen: boolean) => void
 }
 
 const Cart = ({ setIsOpenCart }: CartProps) => {
-  const { products } = useContext(CartContext)
+  const { products, total, subtotal, totalDiscount } = useContext(CartContext)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
 
   const handleFinshOrderClick = async () => {
@@ -32,10 +34,14 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
       <div className="flex h-full flex-col py-5">
         {products.length > 0 ? (
           <>
-            <div className="flex-auto space-y-4">
-              {products.map((product) => (
-                <CartItem cartProduct={product} key={product.id} />
-              ))}
+            <div className="flex-auto  space-y-4 overflow-hidden">
+              <ScrollArea className="h-full">
+                <div className="flex flex-col gap-8">
+                  {products.map((product) => (
+                    <CartItem cartProduct={product} key={product.id} />
+                  ))}
+                </div>
+              </ScrollArea>
             </div>
 
             <div className="mb-3 mt-6">
@@ -43,7 +49,7 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
                 <CardContent className="space-y-3 p-5">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">SubTotal</span>
-                    <span></span>
+                    <span>{formatCurrency(Number(subtotal))}</span>
                   </div>
                   <Separator />
 
@@ -54,27 +60,23 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
                     <span className="uppercase">Grátis</span>
                   </div>
                   <Separator />
-                  <div className="flex justify-between">
-                    <span className="text-sm font-semibold">Total</span>
-                    <span className="text-sm font-semibold"></span>
-                  </div>
-                  <Separator />
-
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">Descontos</span>
-                    <span className="font-semibold uppercase text-primary"></span>
+                    <span className="font-semibold uppercase text-primary">
+                      - {formatCurrency(totalDiscount)}
+                    </span>
                   </div>
                   <Separator />
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">
-                      Total do Pedido com desconto
+                  <div className="flex justify-between">
+                    <span className="text-sm font-semibold">Total</span>
+                    <span className="text-sm font-semibold">
+                      {formatCurrency(total)}
                     </span>
-                    <span className="text-sm font-semibold uppercase"></span>
                   </div>
                 </CardContent>
               </Card>
               <Button
-                className="mt-6 w-full p-6"
+                className="mb-4 mt-4 w-full p-4"
                 onClick={() => setIsConfirmDialogOpen(true)}
               >
                 {' '}

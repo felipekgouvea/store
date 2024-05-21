@@ -1,7 +1,7 @@
 'use client'
 
 import { Product } from '@prisma/client'
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useEffect, useMemo, useState } from 'react'
 
 export interface CartProduct extends Product {
   quantity: number
@@ -13,23 +13,27 @@ interface ICartContext {
   cartTotalPrice: number
   cartBasePrice: number
   cartTotalDiscount: number
+  total: number
+  subtotal: number
+  totalDiscount: number
   addProductToCart: (product: CartProduct) => void
   decreaseProductQuantity: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
   removeProductToCart: (productId: string) => void
-  clearCart: () => void
 }
 
 export const CartContext = createContext<ICartContext>({
   products: [],
+  cartTotalPrice: 0,
   cartBasePrice: 0,
   cartTotalDiscount: 0,
-  cartTotalPrice: 0,
+  total: 0,
+  subtotal: 0,
+  totalDiscount: 0,
   addProductToCart: () => {},
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
   removeProductToCart: () => {},
-  clearCart: () => {},
 })
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -40,6 +44,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem('@store/cart-products', JSON.stringify(products))
   }, [products])
+
+  const subtotal = useMemo(() => {
+    return products.reduce((acc, product) => {
+      return acc + Number(product.basePrice) * product.quantity
+    }, 0)
+  }, [products])
+
+  const total = useMemo(() => {
+    return products.reduce((acc, product) => {
+      return (
+        acc +
+        (Number(product.basePrice) -
+          (Number(product.basePrice) * Number(product.discountPercentage)) /
+            100) *
+          product.quantity
+      )
+    }, 0)
+  }, [products])
+
+  const totalDiscount = subtotal - total
 
   const addProductToCart = (product: CartProduct) => {
     if (product.emptyCart) {
@@ -71,10 +95,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     return setProducts((prev) =>
       prev.filter((product) => product.id !== productId),
     )
-  }
-
-  const clearCart = () => {
-    setProducts([])
   }
 
   const decreaseProductQuantity = (productId: string) => {
@@ -111,14 +131,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     <CartContext.Provider
       value={{
         products,
-        cartBasePrice: 0,
-        cartTotalDiscount: 0,
-        cartTotalPrice: 0,
         addProductToCart,
         decreaseProductQuantity,
         increaseProductQuantity,
         removeProductToCart,
-        clearCart,
+        total,
+        subtotal,
+        totalDiscount,
+        cartTotalPrice: 0,
+        cartBasePrice: 0,
+        cartTotalDiscount: 0,
       }}
     >
       {children}
