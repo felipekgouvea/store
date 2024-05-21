@@ -1,9 +1,22 @@
 'use client'
 
-import { MenuIcon, ShoppingCartIcon } from 'lucide-react'
+import {
+  HomeIcon,
+  ListOrderedIcon,
+  LogInIcon,
+  MenuIcon,
+  PercentIcon,
+  ShoppingCartIcon,
+} from 'lucide-react'
 import { Button } from '../ui/button'
 import Image from 'next/image'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '../ui/sheet'
 import { useState, useContext } from 'react'
 import Link from 'next/link'
 import { CartContext } from '@/app/_context/cart'
@@ -41,11 +54,48 @@ const Header = () => {
           <ShoppingCartIcon size={16} />
         </Button>
       </div>
+
       <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
         <SheetContent side="left">
           <SheetHeader>
             <SheetTitle>Menu</SheetTitle>
           </SheetHeader>
+
+          <div className="mt-2 flex flex-col gap-2">
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <LogInIcon size={16} />
+              Fazer Login
+            </Button>
+
+            <Link href="/">
+              <SheetClose asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <HomeIcon size={16} />
+                  Início
+                </Button>
+              </SheetClose>
+            </Link>
+
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <PercentIcon size={16} />
+              Ofertas
+            </Button>
+
+            <Link href="/catalog">
+              <SheetClose asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <ListOrderedIcon size={16} />
+                  Catálogo
+                </Button>
+              </SheetClose>
+            </Link>
+          </div>
         </SheetContent>
       </Sheet>
 
