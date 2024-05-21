@@ -4,6 +4,7 @@ import {
   HomeIcon,
   ListOrderedIcon,
   LogInIcon,
+  LogOutIcon,
   MenuIcon,
   PercentIcon,
   ShoppingCartIcon,
@@ -22,14 +23,24 @@ import Link from 'next/link'
 import { CartContext } from '@/app/_context/cart'
 import TitlePage from '../title-page'
 import Cart from '../cart/cart'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOpenCart, setIsOpenCart] = useState(false)
   const { products } = useContext(CartContext)
+  const { status } = useSession()
 
   const handleOpenToCartClick = () => {
     setIsOpenCart(true)
+  }
+
+  const handleLoginClick = async () => {
+    await signIn()
+  }
+
+  const handleLogoutClick = async () => {
+    await signOut()
   }
 
   return (
@@ -62,10 +73,27 @@ const Header = () => {
           </SheetHeader>
 
           <div className="mt-2 flex flex-col gap-2">
-            <Button variant="outline" className="w-full justify-start gap-2">
-              <LogInIcon size={16} />
-              Fazer Login
-            </Button>
+            {status === 'unauthenticated' && (
+              <Button
+                onClick={handleLoginClick}
+                variant="outline"
+                className="w-full justify-start gap-2"
+              >
+                <LogInIcon size={16} />
+                Fazer Login
+              </Button>
+            )}
+
+            {status === 'authenticated' && (
+              <Button
+                onClick={handleLogoutClick}
+                variant="outline"
+                className="w-full justify-start gap-2"
+              >
+                <LogOutIcon size={16} />
+                Fazer Logout
+              </Button>
+            )}
 
             <Link href="/">
               <SheetClose asChild>
