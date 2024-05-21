@@ -1,7 +1,7 @@
 'use client'
 
 import { Product } from '@prisma/client'
-import { ReactNode, createContext, useState } from 'react'
+import { ReactNode, createContext, useEffect, useState } from 'react'
 
 export interface CartProduct extends Product {
   quantity: number
@@ -33,7 +33,13 @@ export const CartContext = createContext<ICartContext>({
 })
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<CartProduct[]>([])
+  const [products, setProducts] = useState<CartProduct[]>(
+    JSON.parse(localStorage.getItem('@store/cart-products') || '[]'),
+  )
+
+  useEffect(() => {
+    localStorage.setItem('@store/cart-products', JSON.stringify(products))
+  }, [products])
 
   const addProductToCart = (product: CartProduct) => {
     if (product.emptyCart) {

@@ -83,7 +83,7 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
             </div>
           </>
         ) : (
-          <h2 className="font-semibold">Sua sacola está vazia.</h2>
+          <h2 className="font-semibold">Seu carrinho está vazio.</h2>
         )}
       </div>
       <AlertDialog
