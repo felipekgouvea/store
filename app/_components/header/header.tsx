@@ -145,10 +145,17 @@ const Header = () => {
                 </SheetClose>
               </Link>
 
-              <Button variant="outline" className="w-full justify-start gap-2">
-                <PercentIcon size={16} />
-                Ofertas
-              </Button>
+              <Link href="/deals">
+                <SheetClose asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-2"
+                  >
+                    <PercentIcon size={16} />
+                    Ofertas
+                  </Button>
+                </SheetClose>
+              </Link>
 
               <Link href="/catalog">
                 <SheetClose asChild>
@@ -162,7 +169,7 @@ const Header = () => {
                 </SheetClose>
               </Link>
               {data?.user && (
-                <Link href="/catalog">
+                <Link href="/orders">
                   <SheetClose asChild>
                     <Button
                       variant="outline"

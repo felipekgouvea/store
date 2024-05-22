@@ -1,6 +1,8 @@
 import {
+  BoxesIcon,
   HeadphonesIcon,
   KeyboardIcon,
+  ListOrderedIcon,
   MonitorIcon,
   MouseIcon,
   ShoppingCartIcon,
@@ -16,4 +18,6 @@ export const CATEGORY_ICON = {
   mouses: <MouseIcon size={16} />,
   headphones: <HeadphonesIcon size={16} />,
   cart: <ShoppingCartIcon size={16} className="fill-current" />,
+  boxes: <BoxesIcon size={16} />,
+  orders: <ListOrderedIcon size={16} />,
 }

@@ -16,17 +16,36 @@ import { Button } from '../ui/button'
 import CartItem from './cart-item'
 import { formatCurrency } from '@/app/_helpers/price'
 import { ScrollArea } from '../ui/scroll-area'
+import { createOrder } from '@/api/create-order'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 interface CartProps {
   setIsOpenCart: (isOpen: boolean) => void
 }
 
 const Cart = ({ setIsOpenCart }: CartProps) => {
-  const { products, total, subtotal, totalDiscount } = useContext(CartContext)
+  const { products, total, subtotal, totalDiscount, clearCart } =
+    useContext(CartContext)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+  const { data } = useSession()
+  const router = useRouter()
 
   const handleFinshOrderClick = async () => {
-    setIsOpenCart(false)
+    if (!data?.user) return
+
+    try {
+      await createOrder(products, (data.user as any).id)
+
+      clearCart()
+      setIsOpenCart(false)
+      router.push('/orders')
+
+      toast('Pedido realizado com sucesso!')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

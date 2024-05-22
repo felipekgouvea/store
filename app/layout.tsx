@@ -5,6 +5,7 @@ import Footer from './_components/footer/footer'
 import Header from './_components/header/header'
 import { CartProvider } from './_context/cart'
 import AuthProvider from './_providers/auth'
+import { Toaster } from './_components/ui/sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,14 +25,11 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex h-full flex-col">
             <CartProvider>
-              <div>
-                <Header />
-              </div>
+              <Header />
               <div className="flex-1">{children}</div>
             </CartProvider>
-            <div className="mt-14">
-              <Footer />
-            </div>
+            <Toaster />
+            <Footer />
           </div>
         </AuthProvider>
       </body>
