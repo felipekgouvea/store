@@ -1,7 +1,7 @@
 'use client'
 
 import { Product } from '@prisma/client'
-import { ReactNode, createContext, useMemo, useState } from 'react'
+import { ReactNode, createContext, useEffect, useMemo, useState } from 'react'
 
 export interface CartProduct extends Product {
   quantity: number
@@ -40,11 +40,11 @@ export const CartContext = createContext<ICartContext>({
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([])
-  // JSON.parse(window.localStorage.getItem('@store/cart-products') || '[]'),
+  JSON.parse(window.localStorage.getItem('@store/cart-products') || '[]'),
 
-  // useEffect(() => {
-  //   window.localStorage.setItem('@store/cart-products', JSON.stringify(products))
-  // }, [products])
+  useEffect(() => {
+    window.localStorage.setItem('@store/cart-products', JSON.stringify(products))
+  }, [products])
 
   const subtotal = useMemo(() => {
     return products.reduce((acc, product) => {
