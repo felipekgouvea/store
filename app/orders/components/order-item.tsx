@@ -9,6 +9,7 @@ import { Separator } from '@/app/_components/ui/separator'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import OrderProductItem from './order.product-item'
+import { getOrderStatus } from '@/app/_helpers/order-status'
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
@@ -36,7 +37,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
             <div className="flex justify-between">
               <div>
                 <p className="text-sm font-bold">STATUS</p>
-                <p className="font-bold text-primary">{order.status}</p>
+                <p className="font-bold text-primary uppercase">{getOrderStatus(order.status)}</p>
               </div>
               <div>
                 <p className="text-sm font-bold ">Data</p>
