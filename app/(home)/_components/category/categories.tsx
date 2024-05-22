@@ -7,7 +7,7 @@ const Category = async () => {
   })
 
   return (
-    <div className="grid w-full grid-cols-2 gap-4">
+    <div className="grid w-full grid-cols-2 gap-4 lg:flex lg:justify-center">
       {categories.map((category) => (
         <CategoryItem key={category.id} category={category} />
       ))}

@@ -16,45 +16,67 @@ const Home = async () => {
   const mouses = await getProductsByMouses()
 
   return (
-    <div className="flex flex-col gap-8 px-5 pt-8">
-      <PromoBanner
-        src="/banner-01.png"
-        alt="Até 55% de desconto só esse mês."
-      />
+    <div>
+      <div className="hidden  lg:inline-flex lg:w-full">
+        <PromoBanner
+          src="/banner-01-desktop.png"
+          alt="Até 55% de desconto só esse mês."
+        />
+      </div>
+      <div className="flex flex-col gap-8 px-5 pt-8">
+        <div className="visible lg:hidden">
+          <PromoBanner
+            src="/banner-01.png"
+            alt="Até 55% de desconto só esse mês."
+          />
+        </div>
 
-      <Category />
+        <div className="space-y-5 lg:px-[100px]">
+          <Category />
 
-      {deals ? (
-        <>
-          <SectionTitle>OFERTAS</SectionTitle>
-          <ProductList products={deals} />
-        </>
-      ) : (
-        <ProductDealsSkeleton />
-      )}
-      <PromoBanner
-        src="/banner-mouses.png"
-        alt="Até 55% de desconto em mouses."
-      />
+          {deals ? (
+            <>
+              <SectionTitle>OFERTAS</SectionTitle>
+              <ProductList products={deals} />
+            </>
+          ) : (
+            <ProductDealsSkeleton />
+          )}
 
-      {keyboards && (
-        <>
-          <SectionTitle>TECLADOS</SectionTitle>
-          <ProductList products={keyboards} />
-        </>
-      )}
+          <div className="space-y-5 lg:flex lg:flex-row-reverse">
+            <PromoBanner
+              src="/banner-mouses.png"
+              alt="Até 55% de desconto em mouses."
+            />
+            <PromoBanner
+              src="/banner-fones.png"
+              alt="Até 30% de desconto em fones."
+              className="md:invisible"
+            />
+          </div>
 
-      <PromoBanner
-        src="/banner-fones.png"
-        alt="Até 30% de desconto em pizzas."
-      />
+          {keyboards && (
+            <>
+              <SectionTitle>TECLADOS</SectionTitle>
+              <ProductList products={keyboards} />
+            </>
+          )}
 
-      {mouses && (
-        <>
-          <SectionTitle>MOUSES</SectionTitle>
-          <ProductList products={mouses} />
-        </>
-      )}
+          <div className="lg:hidden">
+            <PromoBanner
+              src="/banner-fones.png"
+              alt="Até 20% de desconto em fones."
+            />
+          </div>
+
+          {mouses && (
+            <>
+              <SectionTitle>MOUSES</SectionTitle>
+              <ProductList products={mouses} />
+            </>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
