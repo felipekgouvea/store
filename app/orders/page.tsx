@@ -15,8 +15,15 @@ const OrdersPage = async () => {
     where: {
       userId: (user as any).id,
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
     include: {
-      orderProducts: true,
+      orderProducts: {
+        include: {
+          product: true,
+        },
+      },
     },
   })
 

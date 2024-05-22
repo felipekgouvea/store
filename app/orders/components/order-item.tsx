@@ -8,11 +8,16 @@ import { Card } from '@/app/_components/ui/card'
 import { Separator } from '@/app/_components/ui/separator'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
+import OrderProductItem from './order.product-item'
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
     include: {
-      orderProducts: true
+      orderProducts: {
+        include: {
+          product: true
+        }
+      }
     }
   }>
 }
@@ -46,6 +51,14 @@ const OrderItem = ({ order }: OrderItemProps) => {
             </div>
             <div className="mb-5 mt-5">
               <Separator />
+            </div>
+            <div className="flex flex-col gap-5">
+              {order.orderProducts.map((orderProduct) => (
+                <OrderProductItem
+                  orderProduct={orderProduct}
+                  key={orderProduct.id}
+                />
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>
