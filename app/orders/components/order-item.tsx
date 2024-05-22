@@ -51,7 +51,11 @@ const OrderItem = ({ order }: OrderItemProps) => {
 
   return (
     <Card>
-      <Accordion type="single" collapsible className="px-5 hover:no-underline">
+      <Accordion
+        type="single"
+        collapsible
+        className="px-5 no-underline hover:no-underline"
+      >
         <AccordionItem value="item-1">
           <AccordionTrigger>
             <div className="">

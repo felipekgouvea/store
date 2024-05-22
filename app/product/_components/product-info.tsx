@@ -1,25 +1,36 @@
 'use client'
 
+import Cart from '@/app/_components/cart/cart'
 import DiscountBadge from '@/app/_components/discount-badge'
+import TitlePage from '@/app/_components/title-page'
 import { Button } from '@/app/_components/ui/button'
-import { CartContext, CartProduct } from '@/app/_context/cart'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/app/_components/ui/sheet'
+import { CartContext } from '@/app/_context/cart'
 import {
   calculeteProductTotalPrice,
   formatCurrency,
 } from '@/app/_helpers/price'
+import { Product } from '@prisma/client'
 import { ChevronLeftIcon, ChevronRightIcon, TruckIcon } from 'lucide-react'
 import { useContext, useState } from 'react'
 
 interface ProductInfoProsp {
-  product: CartProduct
+  product: Product
 }
 
 const ProductInfo = ({ product }: ProductInfoProsp) => {
   const [quantity, setQuantity] = useState(1)
+  const [isOpenCart, setIsOpenCart] = useState(false)
   const { addProductToCart } = useContext(CartContext)
 
   const handleAddToCartClick = () => {
     addProductToCart({ ...product, quantity })
+    setIsOpenCart(true)
   }
 
   const handleIncreaseQuantityClick = () =>
@@ -110,6 +121,16 @@ const ProductInfo = ({ product }: ProductInfoProsp) => {
           </div>
         </div>
       </div>
+      <Sheet open={isOpenCart} onOpenChange={setIsOpenCart}>
+        <SheetContent className="w-[90%]">
+          <SheetHeader>
+            <SheetTitle className="pb-3 text-left text-lg font-semibold">
+              <TitlePage title="Carrinho" slug="cart" />
+            </SheetTitle>
+          </SheetHeader>
+          <Cart setIsOpenCart={setIsOpenCart} />
+        </SheetContent>
+      </Sheet>
     </>
   )
 }
