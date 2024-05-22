@@ -41,10 +41,15 @@ const OrderProductItem = ({ orderProduct }: OrderProductItemProps) => {
         <div className="flex justify-between">
           <div className="flex items-center gap-1">
             <span className="text-sm font-bold">
-              {formatCurrency(calculeteProductTotalPrice(orderProduct.product))}
+              {formatCurrency(
+                calculeteProductTotalPrice(orderProduct.product) *
+                  orderProduct.quantity,
+              )}
             </span>
             <span className="text-xs text-[#676767] line-through ">
-              {formatCurrency(Number(orderProduct.basePrice))}
+              {formatCurrency(
+                Number(orderProduct.basePrice) * orderProduct.quantity,
+              )}
             </span>
           </div>
           <span className="text-xs text-[#676767]">

@@ -11,23 +11,21 @@ import {
   AlertDialogTitle,
 } from '../ui/alert-dialog'
 import { Card, CardContent } from '../ui/card'
-import { Separator } from '../ui/separator'
 import { Button } from '../ui/button'
 import CartItem from './cart-item'
-import { formatCurrency } from '@/app/_helpers/price'
 import { ScrollArea } from '../ui/scroll-area'
 import { createOrder } from '@/api/create-order'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import ProductsPriceInfo from '../products-price-infos'
 
 interface CartProps {
   setIsOpenCart: (isOpen: boolean) => void
 }
 
 const Cart = ({ setIsOpenCart }: CartProps) => {
-  const { products, total, subtotal, totalDiscount, clearCart } =
-    useContext(CartContext)
+  const { products, clearCart } = useContext(CartContext)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
   const { data } = useSession()
   const router = useRouter()
@@ -66,32 +64,7 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
             <div className="mb-3 mt-6">
               <Card>
                 <CardContent className="space-y-3 p-5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">SubTotal</span>
-                    <span>{formatCurrency(Number(subtotal))}</span>
-                  </div>
-                  <Separator />
-
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">
-                      Taxa de Entrega
-                    </span>
-                    <span className="uppercase">Grátis</span>
-                  </div>
-                  <Separator />
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">Descontos</span>
-                    <span className="font-semibold uppercase text-primary">
-                      - {formatCurrency(totalDiscount)}
-                    </span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between">
-                    <span className="text-sm font-semibold">Total</span>
-                    <span className="text-sm font-semibold">
-                      {formatCurrency(total)}
-                    </span>
-                  </div>
+                  <ProductsPriceInfo />
                 </CardContent>
               </Card>
               <Button
