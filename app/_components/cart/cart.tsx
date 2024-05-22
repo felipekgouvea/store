@@ -19,6 +19,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import ProductsPriceInfo from '../products-price-infos'
+import { Loader2 } from 'lucide-react'
 
 interface CartProps {
   setIsOpenCart: (isOpen: boolean) => void
@@ -27,6 +28,7 @@ interface CartProps {
 const Cart = ({ setIsOpenCart }: CartProps) => {
   const { products, clearCart } = useContext(CartContext)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const { data } = useSession()
   const router = useRouter()
 
@@ -34,6 +36,7 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
     if (!data?.user) return
 
     try {
+      setIsSubmitLoading(true)
       await createOrder(products, (data.user as any).id)
 
       clearCart()
@@ -43,6 +46,8 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
       toast('Pedido realizado com sucesso!')
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsSubmitLoading(false)
     }
   }
 
@@ -70,8 +75,11 @@ const Cart = ({ setIsOpenCart }: CartProps) => {
               <Button
                 className="mb-4 mt-4 w-full p-4"
                 onClick={() => setIsConfirmDialogOpen(true)}
+                disabled={isSubmitLoading}
               >
-                {' '}
+                {isSubmitLoading && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Finalizar Pedido
               </Button>
             </div>
